@@ -10,13 +10,13 @@ app.get("/all", async (req, res) => {
     res.json(response.data.results);
 });
 app.get("/:id", async (req, res) => {
-    if (req.params.id <= 905) {
+    try {
         const response = await axios.get(
             `https://pokeapi.co/api/v2/pokemon/${req.params.id}`
         );
         res.json(response.data);
-    } else {
-        res.json("No pokemon here");
+    } catch (error) {
+        res.status(error.response.status).send(error.response.data);
     }
 });
 
